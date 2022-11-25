@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WebApiRifa.Entidades;
 using WebApiRifa.Validaciones;
 
-namespace WebApiRifa.Entidades
+namespace WebApiRifa.DTOs
 {
-    public class Participante
+    public class ParticipanteDTO
     {
         public int Id { get; set; }
 
@@ -12,6 +13,6 @@ namespace WebApiRifa.Entidades
         [PrimeraLetraMayuscula]
         public string Nombre { get; set; }
 
-        public List<RifaParticipante> RifaParticipantes { get; set; }
+        public List<NumRifa> NumRifa { get; set; }
     }
 }
