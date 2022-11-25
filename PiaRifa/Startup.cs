@@ -27,6 +27,8 @@ namespace WebApiRifa
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIRifa", Version = "v1" });
 
             });
+
+            services.AddAutoMapper(typeof(Startup));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

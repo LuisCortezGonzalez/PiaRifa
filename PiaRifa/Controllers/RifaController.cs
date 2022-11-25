@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApiRifa.DTOs;
 using WebApiRifa.Entidades;
+using AutoMapper;
 
 namespace WebApiRifa.Controllers
 {
@@ -12,11 +13,13 @@ namespace WebApiRifa.Controllers
     {
         private readonly ApplicationDbContext dbContext;
         private readonly IConfiguration configuration;
+        private readonly IMapper mapper;
 
-        public RifaController(ApplicationDbContext dbContext, IConfiguration configuration)
+        public RifaController(ApplicationDbContext dbContext, IConfiguration configuration, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.configuration = configuration;
+            this.mapper = mapper;
         }
 
         [HttpGet]
