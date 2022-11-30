@@ -4,11 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using WebApiRifa.DTOs;
 using WebApiRifa.Entidades;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace WebApiRifa.Controllers
 {
     [ApiController]
     [Route("rifa")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
     public class RifaController: ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
