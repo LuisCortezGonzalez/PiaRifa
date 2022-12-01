@@ -2,10 +2,10 @@
 {
     public class RifaParticipante
     {
-        public int RifaId { get; set; }
+        public string RifaId { get; set; }
         
-        public int ParticipanteId { get; set; }
-        public int CartaId { get; set; }
+        public string ParticipanteId { get; set; }
+        public string CartaId { get; set; }
 
         public Rifa Rifa { get; set; }
 

@@ -12,6 +12,8 @@ namespace WebApiRifa.Entidades
         [PrimeraLetraMayuscula]
         public string Nombre { get; set; }
 
+        public string UserId { get; set; }
+
         public List<RifaParticipante> RifaParticipantes { get; set; }
     }
 }
