@@ -33,6 +33,8 @@ namespace WebApiRifa
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
 
+            services.AddResponseCaching();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opciones => opciones.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -47,6 +49,7 @@ namespace WebApiRifa
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIRifa", Version = "v1" });
@@ -78,9 +81,9 @@ namespace WebApiRifa
 
             services.AddAutoMapper(typeof(Startup));
 
-            /*services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();*/
+                .AddDefaultTokenProviders();
 
             services.AddAuthorization(opciones =>
             {
@@ -98,7 +101,7 @@ namespace WebApiRifa
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
@@ -108,6 +111,7 @@ namespace WebApiRifa
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors();
 
             app.UseAuthorization();
 

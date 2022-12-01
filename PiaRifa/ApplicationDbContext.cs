@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApiRifa.Entidades;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace WebApiRifa
 {
-    public class ApplicationDbContext: DbContext
+    public class ApplicationDbContext: IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
