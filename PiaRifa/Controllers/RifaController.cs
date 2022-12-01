@@ -10,7 +10,7 @@ namespace WebApiRifa.Controllers
 {
     [ApiController]
     [Route("rifa")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
     public class RifaController: ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
@@ -24,7 +24,7 @@ namespace WebApiRifa.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]
+      /*  [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<List<GetRifaDTO>>> Get()
         {
@@ -81,6 +81,6 @@ namespace WebApiRifa.Controllers
             });
             await dbContext.SaveChangesAsync();
             return Ok();
-        }
+        }*/
     }
 }

@@ -220,6 +220,26 @@ namespace WebApiRifa.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("WebApiRifa.Entidades.Cartas", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("numero")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cartas");
+                });
+
             modelBuilder.Entity("WebApiRifa.Entidades.Participante", b =>
                 {
                     b.Property<int>("Id")
@@ -236,6 +256,27 @@ namespace WebApiRifa.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Participantes");
+                });
+
+            modelBuilder.Entity("WebApiRifa.Entidades.Premios", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("RifaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("premios")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RifaId");
+
+                    b.ToTable("Premios");
                 });
 
             modelBuilder.Entity("WebApiRifa.Entidades.Rifa", b =>
@@ -264,7 +305,15 @@ namespace WebApiRifa.Migrations
                     b.Property<int>("ParticipanteId")
                         .HasColumnType("int");
 
-                    b.HasKey("RifaId", "ParticipanteId");
+                    b.Property<int>("CartaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CartasId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RifaId", "ParticipanteId", "CartaId");
+
+                    b.HasIndex("CartasId");
 
                     b.HasIndex("ParticipanteId");
 
@@ -322,8 +371,23 @@ namespace WebApiRifa.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebApiRifa.Entidades.Premios", b =>
+                {
+                    b.HasOne("WebApiRifa.Entidades.Rifa", "Rifa")
+                        .WithMany("premios")
+                        .HasForeignKey("RifaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rifa");
+                });
+
             modelBuilder.Entity("WebApiRifa.Entidades.RifaParticipante", b =>
                 {
+                    b.HasOne("WebApiRifa.Entidades.Cartas", "Cartas")
+                        .WithMany("RifaParticipantes")
+                        .HasForeignKey("CartasId");
+
                     b.HasOne("WebApiRifa.Entidades.Participante", "Participante")
                         .WithMany("RifaParticipantes")
                         .HasForeignKey("ParticipanteId")
@@ -336,9 +400,16 @@ namespace WebApiRifa.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Cartas");
+
                     b.Navigation("Participante");
 
                     b.Navigation("Rifa");
+                });
+
+            modelBuilder.Entity("WebApiRifa.Entidades.Cartas", b =>
+                {
+                    b.Navigation("RifaParticipantes");
                 });
 
             modelBuilder.Entity("WebApiRifa.Entidades.Participante", b =>
@@ -349,6 +420,8 @@ namespace WebApiRifa.Migrations
             modelBuilder.Entity("WebApiRifa.Entidades.Rifa", b =>
                 {
                     b.Navigation("RifaParticipantes");
+
+                    b.Navigation("premios");
                 });
 #pragma warning restore 612, 618
         }

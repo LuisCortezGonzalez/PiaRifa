@@ -3,11 +3,13 @@ using WebApiRifa.Validaciones;
 
 namespace WebApiRifa.DTOs
 {
-    public class ParticipanteCreacionDTO
+    public class RifaCreacionDTO
     {
         [Required(ErrorMessage = "El Nombre es requerido.")]
-        [StringLength(maximumLength: 100, ErrorMessage = "Solo pueden ser 100 caracteres.")]
+        [StringLength(maximumLength: 30, ErrorMessage = "Solo pueden ser 30 caracteres.")]
         [PrimeraLetraMayuscula]
         public string Nombre { get; set; }
+
+        public List<PremioCreacionDTO> premios { get; set; }
     }
 }

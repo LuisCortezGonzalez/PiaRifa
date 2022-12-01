@@ -49,6 +49,20 @@ namespace WebApiRifa.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cartas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    numero = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cartas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Participantes",
                 columns: table => new
                 {
@@ -181,15 +195,42 @@ namespace WebApiRifa.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Premios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    premios = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RifaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Premios", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Premios_Rifas_RifaId",
+                        column: x => x.RifaId,
+                        principalTable: "Rifas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RifaParticipantes",
                 columns: table => new
                 {
                     RifaId = table.Column<int>(type: "int", nullable: false),
-                    ParticipanteId = table.Column<int>(type: "int", nullable: false)
+                    ParticipanteId = table.Column<int>(type: "int", nullable: false),
+                    CartaId = table.Column<int>(type: "int", nullable: false),
+                    CartasId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RifaParticipantes", x => new { x.RifaId, x.ParticipanteId });
+                    table.PrimaryKey("PK_RifaParticipantes", x => new { x.RifaId, x.ParticipanteId, x.CartaId });
+                    table.ForeignKey(
+                        name: "FK_RifaParticipantes_Cartas_CartasId",
+                        column: x => x.CartasId,
+                        principalTable: "Cartas",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_RifaParticipantes_Participantes_ParticipanteId",
                         column: x => x.ParticipanteId,
@@ -244,6 +285,16 @@ namespace WebApiRifa.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Premios_RifaId",
+                table: "Premios",
+                column: "RifaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RifaParticipantes_CartasId",
+                table: "RifaParticipantes",
+                column: "CartasId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RifaParticipantes_ParticipanteId",
                 table: "RifaParticipantes",
                 column: "ParticipanteId");
@@ -267,6 +318,9 @@ namespace WebApiRifa.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Premios");
+
+            migrationBuilder.DropTable(
                 name: "RifaParticipantes");
 
             migrationBuilder.DropTable(
@@ -274,6 +328,9 @@ namespace WebApiRifa.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Cartas");
 
             migrationBuilder.DropTable(
                 name: "Participantes");

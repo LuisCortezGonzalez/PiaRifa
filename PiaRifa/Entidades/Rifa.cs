@@ -13,5 +13,8 @@ namespace WebApiRifa.Entidades
         public string Nombre { get; set; }
 
         public List<RifaParticipante> RifaParticipantes { get; set; }
+        public List<Premios> premios { get; set; }
+
+
     }
 }

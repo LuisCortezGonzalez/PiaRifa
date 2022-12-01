@@ -1,74 +1,27 @@
-﻿namespace WebApiRifa.Services
+﻿using WebApiRifa.Entidades;
+
+namespace WebApiRifa.Services
 {
     public interface IService
     {
-        void EjecutarJob();
-        Guid GetScoped();
-        Guid GetSingleton();
-        Guid GetTransient();
+        List<Cartas> EjecutarSeleccion(List<Cartas> cartas);
+
     }
 
-    public class ServiceA : IService
+    public class ServicioSelecciones : IService
     {
-        private readonly ServiceScoped serviceScoped;
-        private readonly ServiceSingleton serviceSingleton;
-
-        private readonly ILogger<ServiceA> logger;
-        private readonly ServiceTransient serviceTransient;
-
-        public ServiceA(ILogger<ServiceA> logger, ServiceTransient serviceTransient,
-            ServiceScoped serviceScoped,
-            ServiceSingleton serviceSingleton)
+        public List<Cartas> EjecutarSeleccion(List<Cartas> Cartas)
         {
-            this.logger = logger;
-            this.serviceTransient = serviceTransient;
-            this.serviceScoped = serviceScoped;
-            this.serviceSingleton = serviceSingleton;
+            Random random = new Random();
+            List<Cartas> lista = new List<Cartas>();
+            for (int i = 0; i < Cartas.Count; i++)
+            {
+                int indice = random.Next(0, Cartas.Count);
+                lista.Add(Cartas[indice]);
+                Cartas.Remove(Cartas[indice]);
+            }
+            return Cartas;
+
         }
-
-        public Guid GetTransient() { return serviceTransient.guid; }
-        public Guid GetScoped() { return serviceScoped.guid; }
-        public Guid GetSingleton() { return serviceSingleton.guid; }
-
-        public void EjecutarJob()
-        {
-        }
-    }
-
-    public class ServiceB : IService
-    {
-        public void EjecutarJob()
-        {
-        }
-
-        public Guid GetScoped()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Guid GetSingleton()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Guid GetTransient()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class ServiceTransient
-    {
-        public Guid guid = Guid.NewGuid();
-    }
-
-    public class ServiceScoped
-    {
-        public Guid guid = Guid.NewGuid();
-    }
-
-    public class ServiceSingleton
-    {
-        public Guid guid = Guid.NewGuid();
     }
 }

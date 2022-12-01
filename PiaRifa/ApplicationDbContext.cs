@@ -15,7 +15,7 @@ namespace WebApiRifa
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<RifaParticipante>()
-                .HasKey(pl => new { pl.RifaId, pl.ParticipanteId });
+                .HasKey(pl => new { pl.RifaId, pl.ParticipanteId, pl.CartaId });
         }
 
         public DbSet<Rifa> Rifas { get; set; }
@@ -23,5 +23,9 @@ namespace WebApiRifa
         public DbSet<Participante> Participantes { get; set; }
 
         public DbSet<RifaParticipante> RifaParticipantes { get; set; }
+
+        public DbSet<Premios> Premios { get; set; }
+
+        public DbSet<Cartas> Cartas { get; set; }
     }
 }
